@@ -266,6 +266,8 @@ class PrettyJsonCommand(PrettyJsonBaseCommand, sublime_plugin.TextCommand):
                 json_text = self.json_dumps(obj=obj, minified=False, force_sorting=self.force_sorting)
                 if not entire_file and settings.get("reindent_block", False):
                     json_text = self.reindent(json_text, region)
+                if settings.get("keep_last_break", False) and selection_text.endswith("\n"):
+                    json_text = json_text + "\n"
 
                 self.view.replace(edit, region, json_text)
                 if entire_file:
